@@ -11,6 +11,7 @@ ingestion chain works end to end against the real API.
 
 from edgariq.config import settings
 from edgariq.ingestion import EdgarClient, FilingType
+from edgariq.parsing import parse_filing_html
 
 
 def main() -> None:
@@ -36,7 +37,15 @@ def main() -> None:
     print("\nDownloading the most recent one...")
     doc = client.download_filing(filings[0])
     print(f"  -> {len(doc.raw_html):,} characters from {doc.source_url}")
-    print(f"  -> preview: {doc.raw_html[:300]!r}")
+
+    print("\nParsing the filing (this may take a few seconds on a 1MB+ document)...")
+    parsed = parse_filing_html(doc.raw_html)
+    print(f"  -> {len(parsed.tables)} data tables found (after filtering out layout tables)")
+    print(f"  -> {len(parsed.text_sections)} text sections extracted")
+    if parsed.tables:
+        sample = parsed.tables[0]
+        print(f"\n  Sample table (context: {sample.context!r}):")
+        print("  " + sample.to_markdown().replace("\n", "\n  "))
 
 
 if __name__ == "__main__":

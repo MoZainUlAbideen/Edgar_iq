@@ -62,7 +62,7 @@ including CI.
 - [x] Project scaffold (uv, package layout, git)
 - [x] SEC EDGAR ingestion client — ticker resolution, filing history, document download
 - [x] Unit tests for ingestion (mocked HTTP)
-- [ ] Document parsing (tables, chart captions)
+- [x] Document parsing — clean text + data-table filtering (13 tests passing)
 - [ ] Hybrid RAG index (Ollama embeddings)
 - [ ] Multi-agent orchestrator (planner, retriever, calculator, critic)
 - [ ] Eval harness (golden set, grounding checks, regression tracking)
