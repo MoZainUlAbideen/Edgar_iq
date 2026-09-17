@@ -17,12 +17,19 @@ easy to tune later against real mis-classifications.
 from __future__ import annotations
 
 import re
+import warnings
 
-from bs4 import BeautifulSoup, Comment, Tag
+from bs4 import BeautifulSoup, Comment, Tag, XMLParsedAsHTMLWarning
 
 from edgariq.parsing.models import ParsedFiling, ParsedTable
 
+# SEC's iXBRL filings often start with an XML declaration even though the
+# document is real, renderable XHTML — we're intentionally parsing it as
+# HTML (which works fine), so this specific warning is just noise.
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
+
 _NUMERIC_CELL_RE = re.compile(r"^[\$\(\)\-\+\d,\.\%\s]+$")
+_SYMBOL_ONLY_RE = re.compile(r"^[\$\(\)]+$")  # e.g. a cell that is just "$" or "("
 _MIN_ROWS_FOR_DATA_TABLE = 2
 _MIN_CELLS_FOR_DATA_TABLE = 6
 _MIN_NUMERIC_RATIO = 0.3
@@ -34,13 +41,33 @@ def _looks_numeric(cell: str) -> bool:
     return bool(cell) and bool(_NUMERIC_CELL_RE.match(cell)) and any(c.isdigit() for c in cell)
 
 
+def _merge_symbol_only_cells(row: list[str]) -> list[str]:
+    """SEC table markup often puts a currency symbol or bare parenthesis in
+    its own <td>, separate from the actual value (e.g. ["$", "1,234"]
+    instead of ["$1,234"]). Left uncorrected, this silently shifts every
+    later column over by one and can push real values past the table's
+    column count when rows get normalized to header width. Merge each
+    symbol-only cell into the next cell so the value stays intact."""
+    merged: list[str] = []
+    i = 0
+    while i < len(row):
+        cell = row[i]
+        if _SYMBOL_ONLY_RE.match(cell) and i + 1 < len(row):
+            merged.append((cell + row[i + 1]).strip())
+            i += 2
+        else:
+            merged.append(cell)
+            i += 1
+    return merged
+
+
 def _extract_rows(table: Tag) -> list[list[str]]:
     rows: list[list[str]] = []
     for tr in table.find_all("tr"):
         cells = [c.get_text(" ", strip=True) for c in tr.find_all(["td", "th"])]
         # Drop fully-blank rows — common as visual spacers in filing HTML.
         if any(cell for cell in cells):
-            rows.append(cells)
+            rows.append(_merge_symbol_only_cells(cells))
     return rows
 
 
@@ -76,6 +103,17 @@ def _split_headers_and_data(rows: list[list[str]]) -> tuple[list[str], list[list
     return header, data_rows
 
 
+def _normalize_row(row: list[str], width: int) -> list[str]:
+    """Fit a row to the header's column count. If the row has extra
+    (usually empty spacer) cells, drop empties first rather than blindly
+    truncating from the end — that's what was silently deleting real
+    values in tables with sparse spacer columns."""
+    if len(row) > width:
+        without_empties = [c for c in row if c != ""]
+        row = without_empties if len(without_empties) <= width else row[:width]
+    return row + [""] * (width - len(row))
+
+
 def parse_filing_html(html: str) -> ParsedFiling:
     soup = BeautifulSoup(html, "lxml")
 
@@ -93,7 +131,7 @@ def parse_filing_html(html: str) -> ParsedFiling:
         # Normalize row lengths to match the header width so markdown
         # rendering never breaks on a ragged row.
         width = len(headers)
-        normalized_rows = [row[:width] + [""] * (width - len(row)) for row in data_rows]
+        normalized_rows = [_normalize_row(row, width) for row in data_rows]
 
         tables.append(
             ParsedTable(

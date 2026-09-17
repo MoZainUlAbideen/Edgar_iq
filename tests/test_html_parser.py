@@ -76,3 +76,29 @@ def test_empty_document_produces_no_tables_or_sections():
     result = parse_filing_html("<html><body></body></html>")
     assert result.tables == []
     assert result.text_sections == []
+
+
+# Regression test for a real bug found against a live NVIDIA 10-Q: SEC
+# filing markup sometimes puts a currency symbol in its own <td>, separate
+# from the value, which was silently truncating the real number off rows
+# that had one.
+SPLIT_CURRENCY_HTML = """
+<html><body>
+  <h2>Future Amortization Expense</h2>
+  <table>
+    <tr><th>Fiscal Year</th><th>Amount</th></tr>
+    <tr><td>2027</td><td>$</td><td>120</td></tr>
+    <tr><td>2028</td><td>795</td></tr>
+    <tr><td>Total</td><td>$</td><td>915</td></tr>
+  </table>
+</body></html>
+"""
+
+
+def test_merges_split_currency_symbol_instead_of_dropping_the_value():
+    result = parse_filing_html(SPLIT_CURRENCY_HTML)
+    table = result.tables[0]
+
+    assert ["2027", "$120"] in table.rows
+    assert ["2028", "795"] in table.rows
+    assert ["Total", "$915"] in table.rows
