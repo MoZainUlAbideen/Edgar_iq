@@ -12,6 +12,7 @@ ingestion chain works end to end against the real API.
 from edgariq.config import settings
 from edgariq.ingestion import EdgarClient, FilingType
 from edgariq.parsing import parse_filing_html
+from edgariq.indexing import chunk_filing, OllamaEmbedder, VectorStore
 
 
 def main() -> None:
@@ -46,6 +47,34 @@ def main() -> None:
         sample = parsed.tables[0]
         print(f"\n  Sample table (context: {sample.context!r}):")
         print("  " + sample.to_markdown().replace("\n", "\n  "))
+
+    print("\nChunking into retrieval-sized pieces...")
+    chunks = chunk_filing(parsed, filings[0], doc.source_url)
+    print(f"  -> {len(chunks)} chunks ({sum(c.chunk_type == 'table' for c in chunks)} table chunks)")
+
+    print(f"\nEmbedding {len(chunks)} chunks with Ollama ({settings.OLLAMA_EMBEDDING_MODEL})...")
+    print("  (this calls your local Ollama once per chunk — may take a minute or two)")
+    embedder = OllamaEmbedder(
+        base_url=settings.OLLAMA_BASE_URL, model=settings.OLLAMA_EMBEDDING_MODEL
+    )
+    vectors = embedder.embed_batch(
+        [c.text for c in chunks],
+        on_progress=lambda i, total: print(f"  embedded {i}/{total}", end="\r"),
+    )
+    print()  # move past the progress line
+
+    store = VectorStore()
+    store.add(chunks, vectors)
+    print(f"  -> vector store built with {len(store)} chunks")
+
+    query = "data center revenue growth"
+    print(f"\nSearching for: {query!r}")
+    query_vector = embedder.embed(query)
+    results = store.search(query_vector, top_k=3)
+    for i, (chunk, score) in enumerate(results, 1):
+        preview = chunk.text[:200].replace("\n", " ")
+        print(f"\n  [{i}] score={score:.3f} type={chunk.chunk_type}")
+        print(f"      {preview}...")
 
 
 if __name__ == "__main__":

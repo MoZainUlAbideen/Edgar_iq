@@ -62,8 +62,9 @@ including CI.
 - [x] Project scaffold (uv, package layout, git)
 - [x] SEC EDGAR ingestion client — ticker resolution, filing history, document download
 - [x] Unit tests for ingestion (mocked HTTP)
-- [x] Document parsing — clean text + data-table filtering (13 tests passing)
-- [ ] Hybrid RAG index (Ollama embeddings)
-- [ ] Multi-agent orchestrator (planner, retriever, calculator, critic)
+- [x] Document parsing — clean text + data-table filtering, validated and bug-fixed against a real live filing (14 tests passing)
+- [x] Chunking + Ollama embeddings + local vector search (30 tests passing)
+- [x] Multi-filing indexing pipeline with persistence — validated end-to-end on 8 real NVDA filings (1,144 chunks)
+- [x] Multi-agent orchestrator — planner, retriever, drafter, numeric grounding checker, critic (58 tests passing, 4 real bugs found and fixed via testing + one live end-to-end run)
 - [ ] Eval harness (golden set, grounding checks, regression tracking)
 - [ ] Frontend
