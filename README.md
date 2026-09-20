@@ -57,6 +57,10 @@ uv run pytest -v
 These are all mocked (no real network calls), so they run anywhere,
 including CI.
 
+<img width="665" height="146" alt="image" src="https://github.com/user-attachments/assets/aa13eeaa-30b9-4724-a7b9-9af1f4ab8a5f" />
+### To...
+<img width="908" height="210" alt="image" src="https://github.com/user-attachments/assets/b31c882d-c895-423b-a4fc-ff07fca043ad" />
+
 
 ## Progress log
 
