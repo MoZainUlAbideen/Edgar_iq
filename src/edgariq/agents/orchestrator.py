@@ -41,7 +41,7 @@ def answer_question(
     llm: GroqClient,
 ) -> AgentAnswer:
     queries = plan_search_queries(llm, question)
-    chunks = retrieve(store, embedder, queries)
+    chunks = retrieve(store, embedder, queries, original_question=question)
 
     if not chunks:
         return AgentAnswer(

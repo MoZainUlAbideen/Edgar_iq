@@ -37,7 +37,11 @@ def main() -> None:
     embedder = OllamaEmbedder(
         base_url=settings.OLLAMA_BASE_URL, model=settings.OLLAMA_EMBEDDING_MODEL
     )
-    llm = GroqClient(api_key=settings.GROQ_API_KEY, model=settings.GROQ_MODEL)
+    llm = GroqClient(
+        api_key=settings.GROQ_API_KEY,
+        model=settings.GROQ_MODEL,
+        min_request_interval=settings.GROQ_MIN_REQUEST_INTERVAL_SECONDS,
+    )
 
     print(f"Thinking about: {args.question!r}\n(planning searches, retrieving, drafting, "
           f"checking, critiquing — a few Groq calls, should take a few seconds)\n")

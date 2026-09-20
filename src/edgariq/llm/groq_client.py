@@ -5,15 +5,27 @@ simple `complete(system, user) -> str` interface rather than the Groq SDK
 directly. That makes every agent trivially testable with a fake LLM that
 returns canned strings, no network or API key needed in tests.
 
-Includes automatic retry-with-backoff on 429 (rate limit) responses. This
-matters in practice, not just in theory: a single question runs 3+ LLM
-calls (planner, drafter, critic), and free/developer-tier API keys have a
-requests-per-minute cap that a multi-agent pipeline can trip easily —
-without this, the whole pipeline crashes on the 3rd call of an otherwise
-successful run.
+Two layers of rate-limit defense, learned the hard way running the real
+eval harness (7 golden-set cases x 3-4 calls each = ~25 calls in quick
+succession):
+
+1. Proactive throttling — space consecutive calls at least
+   `min_request_interval` seconds apart, BEFORE hitting a 429 at all.
+   Reactive retry alone (below) turned out not to be enough: exponential
+   backoff can win back a single rate-limited call, but a pipeline that
+   keeps firing calls immediately after each retry just gets rate-limited
+   again on the next one — the eval run kept losing the race against
+   Groq's free-tier requests-per-minute cap even with retries. Spacing
+   calls out up front avoids the problem instead of just reacting to it.
+
+2. Retry-with-backoff on 429 — a second line of defense for the rare case
+   throttling alone doesn't avoid (e.g. another process sharing the same
+   API key).
 """
 
 from __future__ import annotations
+
+import time
 
 import requests
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
@@ -28,7 +40,13 @@ class GroqRateLimitError(Exception):
 
 
 class GroqClient:
-    def __init__(self, api_key: str, model: str, temperature: float = 0.0):
+    def __init__(
+        self,
+        api_key: str,
+        model: str,
+        temperature: float = 0.0,
+        min_request_interval: float = 2.5,
+    ):
         if not api_key:
             raise ValueError(
                 "GROQ_API_KEY is not set. Get a free key at https://console.groq.com "
@@ -37,6 +55,13 @@ class GroqClient:
         self._api_key = api_key
         self._model = model
         self._temperature = temperature
+        self._min_request_interval = min_request_interval
+        self._last_request_time = 0.0
+
+    def _throttle(self) -> None:
+        elapsed = time.monotonic() - self._last_request_time
+        if elapsed < self._min_request_interval:
+            time.sleep(self._min_request_interval - elapsed)
 
     def complete(self, system: str, user: str) -> str:
         return self._complete_with_retry(system, user)
@@ -48,6 +73,7 @@ class GroqClient:
         reraise=True,
     )
     def _complete_with_retry(self, system: str, user: str) -> str:
+        self._throttle()
         try:
             resp = requests.post(
                 GROQ_CHAT_URL,
@@ -64,6 +90,11 @@ class GroqClient:
             )
         except requests.exceptions.ConnectionError as e:
             raise ConnectionError("Could not reach Groq's API. Check your internet connection.") from e
+        finally:
+            # Recorded even on failure, so a 429 or error still counts
+            # toward the spacing before the next attempt (including a retry
+            # of this same call).
+            self._last_request_time = time.monotonic()
 
         if resp.status_code == 429:
             # NOTE: a fuller implementation would read the Retry-After header

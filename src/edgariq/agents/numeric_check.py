@@ -14,6 +14,12 @@ appear *inside* an unrelated longer number (e.g. inside "75.292", formed
 by two unrelated figures mashed together once punctuation was stripped),
 silently passing a hallucinated figure as "grounded". Comparing against a
 set of distinct extracted numbers avoids that failure mode entirely.
+
+normalize_number() and extract_numbers() are exported (not just used
+internally) because the eval harness needs the exact same "does this
+number appear" logic to check whether a golden answer's expected facts
+show up in a real generated answer — reusing this avoids two subtly
+different definitions of "the same number" existing in the codebase.
 """
 
 from __future__ import annotations
@@ -26,13 +32,13 @@ from edgariq.indexing import Chunk
 # "$75.2 billion", "92%", "1,144". Comma groups must be full triplets
 # (",\d{3}") so a stray trailing comma (e.g. "note 7, the company...")
 # is never swept into the match.
-_NUMBER_RE = re.compile(
+NUMBER_RE = re.compile(
     r"\$?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s?(?:billion|million|thousand|%)?",
     re.IGNORECASE,
 )
 
 
-def _normalize(token: str) -> str:
+def normalize_number(token: str) -> str:
     """Strip currency signs, commas, unit words, and whitespace so
     "$75.2 billion" and "75.2" compare equal, and "1,144" and "1144" do too."""
     token = re.sub(r"(billion|million|thousand)", "", token, flags=re.IGNORECASE)
@@ -56,10 +62,11 @@ def _looks_like_a_bare_year(token: str, normalized: str) -> bool:
     return not _has_decoration(token) and bool(_CALENDAR_YEAR_RE.match(normalized))
 
 
-def _extract_numbers(text: str) -> set[str]:
+def extract_numbers(text: str) -> set[str]:
+    """All distinct normalized numbers found in `text`."""
     return {
-        _normalize(match.group())
-        for match in _NUMBER_RE.finditer(text)
+        normalize_number(match.group())
+        for match in NUMBER_RE.finditer(text)
         if any(ch.isdigit() for ch in match.group())
     }
 
@@ -69,17 +76,17 @@ def find_ungrounded_numbers(answer: str, chunks: list[tuple[Chunk, float]]) -> l
     value doesn't match any number actually extracted from the retrieved
     context — i.e. numbers the model may have hallucinated."""
     context_text = " ".join(chunk.text for chunk, _ in chunks)
-    context_numbers = _extract_numbers(context_text)
+    context_numbers = extract_numbers(context_text)
 
     candidates = {
         match.group().strip()
-        for match in _NUMBER_RE.finditer(answer)
+        for match in NUMBER_RE.finditer(answer)
         if any(ch.isdigit() for ch in match.group())
     }
 
     ungrounded = []
     for token in candidates:
-        normalized = _normalize(token)
+        normalized = normalize_number(token)
         # A bare, undecorated 1-2 digit number (no $, %, comma, decimal, or
         # unit word) is too ambiguous to treat as a financial figure — could
         # be a footnote/list marker. Anything with real decoration is always

@@ -21,6 +21,9 @@ class Settings:
     # Groq API key for the reasoning/generation LLM calls (later milestones).
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
     GROQ_MODEL: str = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+    GROQ_MIN_REQUEST_INTERVAL_SECONDS: float = float(
+        os.getenv("GROQ_MIN_REQUEST_INTERVAL_SECONDS", "2.5")
+    )    
 
     # Ollama runs locally; default assumes the standard local install.
     OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")

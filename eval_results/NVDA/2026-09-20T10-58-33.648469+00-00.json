@@ -1,0 +1,252 @@
+{
+  "run_at": "2026-09-20T10:58:33.648469+00:00",
+  "ticker": "NVDA",
+  "results": [
+    {
+      "case": {
+        "id": "q1_datacenter_revenue_2026q1",
+        "ticker": "NVDA",
+        "question": "What was NVIDIA's data center revenue in the 10-Q filed 2026-05-20, and what was the year-over-year growth?",
+        "category": "quantitative",
+        "expected_facts": [
+          "$75.2 billion",
+          "92%"
+        ],
+        "expected_topics": []
+      },
+      "answer": {
+        "answer": "NVIDIA reported **Data Center revenue of $75.2 billion** for the quarter covered by the 10‑Q filed May 20 2026.  This represented a **92 % increase year‑over‑year** (and a 21 % sequential increase)【Source: 10‑Q filed 2026‑05‑20】.",
+        "citations": [
+          {
+            "form_type": "10-Q",
+            "filing_date": "2026-05-20",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm"
+          }
+        ],
+        "warnings": []
+      },
+      "grade": {
+        "case_id": "q1_datacenter_revenue_2026q1",
+        "passed": true,
+        "score": 1.0,
+        "detail": "all expected facts present"
+      },
+      "latency_seconds": 14.26600000000326
+    },
+    {
+      "case": {
+        "id": "q2_datacenter_revenue_2025q2",
+        "ticker": "NVDA",
+        "question": "What was NVIDIA's data center revenue growth in the 10-Q filed 2025-05-28?",
+        "category": "quantitative",
+        "expected_facts": [
+          "$39.1 billion",
+          "73%"
+        ],
+        "expected_topics": []
+      },
+      "answer": {
+        "answer": "NVIDIA reported that **Data Center revenue was $39.1 billion, up 73 % from a year ago (and up 10 % sequentially)** in the first quarter of fiscal year 2026. 【Source: 10‑Q filed 2025‑05‑28】",
+        "citations": [
+          {
+            "form_type": "10-Q",
+            "filing_date": "2025-05-28",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000116/nvda-20250427.htm"
+          }
+        ],
+        "warnings": []
+      },
+      "grade": {
+        "case_id": "q2_datacenter_revenue_2025q2",
+        "passed": true,
+        "score": 1.0,
+        "detail": "all expected facts present"
+      },
+      "latency_seconds": 21.32799999997951
+    },
+    {
+      "case": {
+        "id": "q3_datacenter_revenue_2024q3",
+        "ticker": "NVDA",
+        "question": "What was NVIDIA's data center revenue year-over-year growth in the 10-Q filed 2024-11-20?",
+        "category": "quantitative",
+        "expected_facts": [
+          "112%"
+        ],
+        "expected_topics": []
+      },
+      "answer": {
+        "answer": "NVIDIA’s Data Center revenue was **up 112 % year‑over‑year** in the quarter covered by the filing. This figure is stated in the 10‑Q filed 2024‑11‑20 (“Revenue was $35.1 billion… Data Center revenue was up 112 % from a year ago and up 17 % sequentially”).  \n\n*Note:* The filing also mentions that “Revenue from Data Center computing grew 133 % year‑on‑year,” but that refers specifically to the compute portion of the Data Center segment, not the total Data Center revenue figure requested.",
+        "citations": [
+          {
+            "form_type": "10-Q",
+            "filing_date": "2024-11-20",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000316/nvda-20241027.htm"
+          }
+        ],
+        "warnings": []
+      },
+      "grade": {
+        "case_id": "q3_datacenter_revenue_2024q3",
+        "passed": true,
+        "score": 1.0,
+        "detail": "all expected facts present"
+      },
+      "latency_seconds": 45.0
+    },
+    {
+      "case": {
+        "id": "q4_amortization_total",
+        "ticker": "NVDA",
+        "question": "What is NVIDIA's total estimated future amortization expense for intangible assets, according to the 10-Q filed 2026-08-26?",
+        "category": "quantitative",
+        "expected_facts": [
+          "$2,998"
+        ],
+        "expected_topics": []
+      },
+      "answer": {
+        "answer": "NVIDIA’s filing shows that the **total estimated future amortization expense for intangible assets** (based on the net carrying amount of those assets as of July 26, 2026) is **$2,998 million**.  \n\n*Source: “The following table outlines the estimated future amortization expense related to the net carrying amount of intangible assets as of July 26, 2026” – 10‑Q filed 2026‑08‑26 (table shows a “Total” of $2,998).​",
+        "citations": [
+          {
+            "form_type": "10-Q",
+            "filing_date": "2026-08-26",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm"
+          }
+        ],
+        "warnings": []
+      },
+      "grade": {
+        "case_id": "q4_amortization_total",
+        "passed": true,
+        "score": 1.0,
+        "detail": "all expected facts present"
+      },
+      "latency_seconds": 52.28100000001723
+    },
+    {
+      "case": {
+        "id": "q5_amortization_fy2028",
+        "ticker": "NVDA",
+        "question": "What is NVIDIA's estimated amortization expense for fiscal year 2028, according to the 10-Q filed 2026-08-26?",
+        "category": "quantitative",
+        "expected_facts": [
+          "795"
+        ],
+        "expected_topics": []
+      },
+      "answer": {
+        "answer": "NVIDIA estimates that amortization expense for fiscal year 2028 will be **$795 million**. This figure comes from the table of “estimated future amortization expense related to the net carrying amount of intangible assets as of July 26, 2026” in the **10‑Q filed 2026‑08‑26**.",
+        "citations": [
+          {
+            "form_type": "10-Q",
+            "filing_date": "2026-08-26",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm"
+          }
+        ],
+        "warnings": []
+      },
+      "grade": {
+        "case_id": "q5_amortization_fy2028",
+        "passed": true,
+        "score": 1.0,
+        "detail": "all expected facts present"
+      },
+      "latency_seconds": 45.68800000002375
+    },
+    {
+      "case": {
+        "id": "q6_export_control_china",
+        "ticker": "NVDA",
+        "question": "What export control risks has NVIDIA flagged related to China?",
+        "category": "qualitative",
+        "expected_facts": [],
+        "expected_topics": [
+          "NVIDIA is effectively foreclosed from competing in China's data center market",
+          "export controls are complex, based on technical parameters like processing performance",
+          "the U.S. government may impose additional or worldwide export controls in the future"
+        ]
+      },
+      "answer": {
+        "answer": "**Export‑control risks that NVIDIA has highlighted for China**\n\n| Risk / Impact | What NVIDIA says | Source |\n|---|---|---|\n| **Complex, multi‑parameter export rules** – The rules cover total processing performance, “performance density,” inter‑connect bandwidth and memory bandwidth of a chip, making it difficult to build a data‑center product that can be approved by both the U.S. government (USG) and the Chinese government. | “The export controls applicable to China are complex and address a variety of parameters, including the total processing performance of a chip, the ‘performance density’ of a chip, the interconnect bandwidth of a chip, and the memory bandwidth of a chip.” | 10‑Q filed 2026‑08‑26; 10‑Q filed 2025‑11‑19; 10‑K filed 2026‑02‑25 |\n| **Inability to compete in China’s data‑center market** – Because of the above rules, NVIDIA cannot create or deliver a competitive data‑center product for China, resulting in a de‑facto foreclosure from that market. | “Under the current rules … we are unable to create and deliver a competitive product for China’s data‑center market … we were effectively foreclosed from competing in China’s data‑center computing/compute market.” | 10‑Q filed 2026‑08‑26; 10‑Q filed 2025‑11‑19; 10‑K filed 2026‑02‑25 |\n| **Material adverse impact** – The loss of the China data‑center opportunity and the advantage it gives competitors could have a material and adverse effect on NVIDIA’s business, results and financial condition. | “…our lost opportunity and the benefit to our competitors will have a material and adverse impact on our business, operating results, and financial condition.” | 10‑Q filed 2026‑08‑26; 10‑Q filed 2025‑11‑19; 10‑K filed 2026‑02‑25 |\n| **Additional U.S. export controls** – Controls already target “D:1, D:4 and D:5” countries and worldwide export controls are in place; NVIDIA warns that further controls could be imposed in the future. | “In addition to controls targeting D:1, D:4 and D:5 countries, the USG has also imposed worldwide export controls … and may impose additional controls in the future.” | 10‑Q filed 2025‑11‑19; 10‑K filed 2026‑02‑25 |\n| **Restrictions on downstream users** – Export controls on GPUs and AI‑related semiconductors could limit downstream users’ ability to use, resell, repair or transfer NVIDIA products, even outside China. | “Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to restrictions on the use, resale, repair, or transfer of our products.” | 10‑K filed 2026‑02‑25 |\n| **Impact on services and cloud providers** – Controls could raise costs or limit NVIDIA’s AI cloud services and could affect cloud‑service providers (CSPs) and their customers, regardless of geography. | “Controls could negatively impact our cost and/or ability to provide services such as NVIDIA AI cloud services and could impact the cost and/or ability for our CSPs and customers to provide services to their end customers, even outside China.” | 10‑K filed 2026‑02‑25 |\n| **Supply‑chain and distribution disruption** – Current and future controls may disrupt NVIDIA’s supply chain and distribution channels, hurting its ability to meet demand worldwide, not just in China. | “Export controls have and could in the future disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our non‑data‑center products.” | 10‑K filed 2026‑02‑25 |\n| **Effect on networking products** – Controls restricting data‑center GPU sales also threaten demand for NVIDIA’s networking hardware (e.g., high‑speed interconnects) and the U.S. government could impose additional controls on those products. | “Export controls restricting our ability to sell data center GPUs may also negatively impact demand for our networking products … The USG may also impose export controls on our networking products, such as high‑speed network interconnects.” | 10‑K filed 2026‑02‑25; 10‑Q filed 2026‑08‑26; 10‑Q filed 2025‑11‑19 |\n| **Design‑out risk and competitive disadvantage** – Customers may “design‑out” U.S. semiconductors to avoid compliance burdens, and foreign governments may steer buyers toward competitors whose chips are not subject to the controls. | “Export controls have already and may in the future encourage customers … to ‘design‑out’ certain U.S. semiconductors … Export controls have already encouraged … overseas governments to request that our customers purchase from our competitors rather than NVIDIA.” | 10‑K filed 2026‑02‑25; 10‑Q filed 2026‑08‑26; 10‑Q filed 2025‑11‑19 |\n\n**Summary**\n\nNVIDIA flags that the combination of highly technical U.S. export restrictions (covering performance metrics, AI‑related GPUs, and networking interconnects) and the need for simultaneous U.S. and Chinese government approvals has effectively barred it from the Chinese data‑center market. This foreclosure, together with existing worldwide controls and the possibility of further restrictions, creates material‑risk exposures: reduced revenue, higher compliance costs, supply‑chain disruptions, limited ability to sell or service products (including cloud services), pressure on customers to avoid NVIDIA chips, and a competitive disadvantage versus firms whose products fall outside the control regime. All of these points are drawn directly from the filing excerpts above.",
+        "citations": [
+          {
+            "form_type": "10-Q",
+            "filing_date": "2026-08-26",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm"
+          },
+          {
+            "form_type": "10-Q",
+            "filing_date": "2025-11-19",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000230/nvda-20251026.htm"
+          },
+          {
+            "form_type": "10-K",
+            "filing_date": "2026-02-25",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm"
+          }
+        ],
+        "warnings": []
+      },
+      "grade": {
+        "case_id": "q6_export_control_china",
+        "passed": true,
+        "score": 1.0,
+        "detail": "The answer explicitly addresses all three expected topics: it notes NVIDIA's effective foreclosure from China's data‑center market, describes the complex, performance‑based export control parameters, and warns of possible additional or worldwide U.S. export controls."
+      },
+      "latency_seconds": 56.5
+    },
+    {
+      "case": {
+        "id": "q7_export_control_reputational_risk",
+        "ticker": "NVDA",
+        "question": "What reputational or compliance risks has NVIDIA disclosed related to export control diversion?",
+        "category": "qualitative",
+        "expected_facts": [],
+        "expected_topics": [
+          "allegations of diversion of controlled products to restricted destinations",
+          "compliance obligations imposed on partners, suppliers, and customers are complex and burdensome",
+          "these issues could harm NVIDIA's business relationships and reputation"
+        ]
+      },
+      "answer": {
+        "answer": "NVIDIA has warned that export‑control actions – including the risk that its GPUs or related semiconductors could be diverted to prohibited end‑uses – create both **reputational** and **compliance** concerns for the company.  The disclosures in the filings describe the following specific risks:\n\n| Risk described | How it is framed in the filing | Source |\n|----------------|--------------------------------|--------|\n| **Compliance‑burden risk** – repeated changes to export‑control rules could impose heavy compliance obligations on NVIDIA and its customers, materially affecting the business. | “Repeated changes in the export control rules are likely to impose compliance burdens on our business and our customers, negatively and materially impacting our business.” | 10‑K filed 2026‑02‑25 |\n| **Supply‑chain and distribution disruption** – export controls may restrict the use, resale, repair or transfer of NVIDIA products, disrupting the supply chain and distribution channels. | “Export controls … have and may in the future disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand …” | 10‑K filed 2026‑02‑25 |\n| **Demand‑reduction risk** – the possibility of additional controls can depress demand for NVIDIA products, benefitting competitors whose chips are less likely to be restricted. | “The possibility of additional export controls has negatively impacted and may in the future negatively impact demand for our products, benefiting competitors …” | 10‑K filed 2026‑02‑25 |\n| **Design‑out risk** – customers may “design‑out” NVIDIA’s U.S. semiconductors from their products to lower compliance risk, which could be viewed as a loss of confidence in NVIDIA’s ability to meet regulatory requirements. | “Export controls have already and may in the future encourage customers … to ‘design‑out’ certain U.S. semiconductors from their products to reduce the compliance burden and risk …” | 10‑Q filed 2025‑11‑19 (also repeated in 10‑Q filed 2026‑08‑26 and 10‑K filed 2026‑02‑25) |\n| **Government‑driven substitution risk** – overseas governments may request that customers purchase from competitors rather than NVIDIA, reflecting a reputational concern that NVIDIA’s products are seen as higher‑risk under export‑control regimes. | “Export controls have already encouraged … overseas governments to request that our customers purchase from our competitors rather than NVIDIA … harming our business, market position, and financial results.” | 10‑Q filed 2025‑11‑19 (also repeated in 10‑Q filed 2026‑08‑26 and 10‑K filed 2026‑02‑25) |\n| **Impact on cloud‑service offerings** – restrictions could affect NVIDIA AI cloud services and the ability of cloud‑service providers (CSPs) and customers to deliver services, indicating a compliance‑related operational risk. | “Controls could negatively impact our cost and/or ability to provide services such as NVIDIA AI cloud services …” | 10‑K filed 2026‑02‑25 |\n\n**Summary**\n\nAcross its 2025‑2026 filings, NVIDIA discloses that export‑control diversion concerns create:\n\n* **Compliance risks** – heightened regulatory burden, need to monitor downstream use, and potential for customers to redesign products to avoid U.S. controls.  \n* **Reputational/market risks** – loss of demand, encouragement of competitors, and pressure from foreign governments to substitute away from NVIDIA products, all of which could damage NVIDIA’s market position and brand perception.\n\nThese risks are explicitly outlined in the 10‑K filed 2026‑02‑25 and the 10‑Q filings dated 2025‑11‑19 and 2026‑08‑26.",
+        "citations": [
+          {
+            "form_type": "10-K",
+            "filing_date": "2026-02-25",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm"
+          },
+          {
+            "form_type": "10-Q",
+            "filing_date": "2025-11-19",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000230/nvda-20251026.htm"
+          },
+          {
+            "form_type": "10-Q",
+            "filing_date": "2026-08-26",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm"
+          },
+          {
+            "form_type": "10-K",
+            "filing_date": "2025-02-26",
+            "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"
+          }
+        ],
+        "warnings": [
+          "The critic flagged possible unsupported claims:\nUNSUPPORTED: The opening statement that “NVIDIA has warned that export‑control actions – including the risk that its GPUs or related semiconductors could be diverted to prohibited end‑uses – create both reputational and compliance concerns” is not directly supported by the provided excerpts, which discuss export‑control restrictions, compliance burdens, supply‑chain impacts, design‑out and government substitution risks, but do not explicitly mention a risk of “diversion to prohibited end‑uses.”"
+        ]
+      },
+      "grade": {
+        "case_id": "q7_export_control_reputational_risk",
+        "passed": true,
+        "score": 0.96,
+        "detail": "The answer addresses diversion allegations, describes complex and burdensome compliance obligations, and explains potential reputational and relationship harms, covering all expected topics."
+      },
+      "latency_seconds": 49.78100000001723
+    }
+  ],
+  "pass_rate": 1.0,
+  "avg_latency_seconds": 40.692000000005855,
+  "warning_rate": 0.14285714285714285
+}

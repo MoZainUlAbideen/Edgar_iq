@@ -66,5 +66,6 @@ including CI.
 - [x] Chunking + Ollama embeddings + local vector search (30 tests passing)
 - [x] Multi-filing indexing pipeline with persistence — validated end-to-end on 8 real NVDA filings (1,144 chunks)
 - [x] Multi-agent orchestrator — planner, retriever, drafter, numeric grounding checker, critic (58 tests passing, 4 real bugs found and fixed via testing + one live end-to-end run)
-- [ ] Eval harness (golden set, grounding checks, regression tracking)
+- [x] Eval harness — golden set (7 cases, real verified facts), deterministic + LLM-judge grading, regression tracking, HTML report (89 tests passing)
+- [x] Diagnosed and fixed real retrieval failures found by the eval harness: date-aware metadata filtering + retrieval-depth tuning took the golden set from 29% → 86% → 100% pass rate
 - [ ] Frontend
