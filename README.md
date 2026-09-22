@@ -1,4 +1,5 @@
 # EdgarIQ
+### Link to frontend : https://edgar-iq-web.vercel.app/
 
 A grounded research assistant over SEC filings (10-K / 10-Q / 8-K). Ask a
 question like "how did NVIDIA's data center revenue grow YoY, and what risk
@@ -78,4 +79,4 @@ including CI.
 - [x] Multi-agent orchestrator — planner, retriever, drafter, numeric grounding checker, critic (58 tests passing, 4 real bugs found and fixed via testing + one live end-to-end run)
 - [x] Eval harness — golden set (7 cases, real verified facts), deterministic + LLM-judge grading, regression tracking, HTML report (89 tests passing)
 - [x] Diagnosed and fixed real retrieval failures found by the eval harness: date-aware metadata filtering + retrieval-depth tuning took the golden set from 29% → 86% → 100% pass rate
-- [ ] Frontend
+- [x] Frontend
