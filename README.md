@@ -27,7 +27,7 @@ SEC EDGAR filings -> Doc parsing (OCR, tables, charts) -> Hybrid RAG index
                                               Grounded answer, cited to source page
 ```
 
-- **Backend**: Ollama (local embeddings) + Groq API (reasoning/generation)
+- **Backend**: Ollama (local) or Gemini (hosted) embeddings + Groq API (reasoning/generation); FastAPI service for the live demo
 - **Ingestion**: direct SEC EDGAR REST API, no scraping
 - **v1 scope**: text + table RAG, multi-agent orchestration, eval harness.
   Vision-based page retrieval (for charts/tables OCR mangles) is a planned v2.
@@ -79,4 +79,5 @@ including CI.
 - [x] Multi-agent orchestrator — planner, retriever, drafter, numeric grounding checker, critic (58 tests passing, 4 real bugs found and fixed via testing + one live end-to-end run)
 - [x] Eval harness — golden set (7 cases, real verified facts), deterministic + LLM-judge grading, regression tracking, HTML report (89 tests passing)
 - [x] Diagnosed and fixed real retrieval failures found by the eval harness: date-aware metadata filtering + retrieval-depth tuning took the golden set from 29% → 86% → 100% pass rate
-- [x] Frontend
+- [x] Frontend — two-page Vercel site with curated chat widget
+- [x] Live backend — FastAPI (`/ask` job + poll, rate limits, CORS), hosted-embedding option, Render blueprint; see [DEPLOY.md](DEPLOY.md)

@@ -14,7 +14,7 @@ from pathlib import Path
 
 from edgariq.agents import answer_question
 from edgariq.config import settings
-from edgariq.indexing import OllamaEmbedder, VectorStore
+from edgariq.indexing import VectorStore, embedder_for_store
 from edgariq.llm import GroqClient
 
 INDEX_DIR = Path(__file__).resolve().parent.parent / "data" / "indexes"
@@ -24,9 +24,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("ticker")
     parser.add_argument("question")
+    parser.add_argument("--index", help="path to an index file (default: data/indexes/<TICKER>.json)")
     args = parser.parse_args()
 
-    index_path = INDEX_DIR / f"{args.ticker.upper()}.json"
+    index_path = Path(args.index) if args.index else INDEX_DIR / f"{args.ticker.upper()}.json"
     if not index_path.exists():
         raise SystemExit(
             f"No index found at {index_path}. Build one first with:\n"
@@ -34,9 +35,7 @@ def main() -> None:
         )
 
     store = VectorStore.load(index_path)
-    embedder = OllamaEmbedder(
-        base_url=settings.OLLAMA_BASE_URL, model=settings.OLLAMA_EMBEDDING_MODEL
-    )
+    embedder = embedder_for_store(settings, store)  # matches the index, not the env var
     llm = GroqClient(
         api_key=settings.GROQ_API_KEY,
         model=settings.GROQ_MODEL,

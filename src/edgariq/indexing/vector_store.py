@@ -10,6 +10,7 @@ not a rewrite of anything upstream.
 
 from __future__ import annotations
 
+import gzip
 import json
 from pathlib import Path
 from typing import Callable
@@ -20,7 +21,10 @@ from edgariq.indexing.models import Chunk
 
 
 class VectorStore:
-    def __init__(self):
+    def __init__(self, embedder_id: str | None = None):
+        # Which embedding model produced the vectors (None for indexes built
+        # before this field existed). Lets a server detect a mismatch.
+        self.embedder_id = embedder_id
         self._chunks: list[Chunk] = []
         self._vectors: np.ndarray | None = None  # shape: (n_chunks, embedding_dim)
 
@@ -87,17 +91,27 @@ class VectorStore:
         return [c for c in self._chunks if filter_fn(c)]    
 
     def save(self, path: str | Path) -> None:
+        """Writes JSON; a path ending in .gz is gzip-compressed (used for the
+        smaller deploy copy -- see scripts/package_index.py)."""
         path = Path(path)
         payload = {
+            "embedder": self.embedder_id,
             "chunks": [c.model_dump() for c in self._chunks],
             "vectors": self._vectors.tolist() if self._vectors is not None else [],
         }
-        path.write_text(json.dumps(payload), encoding="utf-8")
+        data = json.dumps(payload).encode("utf-8")
+        if path.suffix == ".gz":
+            data = gzip.compress(data)
+        path.write_bytes(data)
 
     @classmethod
     def load(cls, path: str | Path) -> "VectorStore":
-        payload = json.loads(Path(path).read_text(encoding="utf-8"))
-        store = cls()
+        path = Path(path)
+        raw = path.read_bytes()
+        if path.suffix == ".gz":
+            raw = gzip.decompress(raw)
+        payload = json.loads(raw.decode("utf-8"))
+        store = cls(embedder_id=payload.get("embedder"))
         chunks = [Chunk(**c) for c in payload["chunks"]]
         if chunks:
             store.add(chunks, payload["vectors"])

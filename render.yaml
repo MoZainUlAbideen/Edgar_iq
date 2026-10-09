@@ -1,0 +1,22 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> pick this repo.
+services:
+  - type: web
+    name: edgariq-api
+    runtime: python
+    plan: free
+    buildCommand: pip install .
+    startCommand: uvicorn edgariq.api.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: EMBEDDING_PROVIDER
+        value: gemini
+      - key: API_INDEX_PATH
+        value: deploy/indexes/NVDA.json.gz
+      - key: GROQ_API_KEY
+        sync: false          # paste in the Render dashboard, never commit
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false          # e.g. https://edgar-iq-web.vercel.app

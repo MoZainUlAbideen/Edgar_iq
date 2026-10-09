@@ -18,7 +18,7 @@ from pathlib import Path
 from edgariq.agents.planner import plan_search_queries
 from edgariq.agents.retriever import extract_filing_date_hint, retrieve
 from edgariq.config import settings
-from edgariq.indexing import OllamaEmbedder, VectorStore
+from edgariq.indexing import VectorStore, embedder_for_store
 from edgariq.llm import GroqClient
 
 INDEX_DIR = Path(__file__).resolve().parent.parent / "data" / "indexes"
@@ -35,9 +35,7 @@ def main() -> None:
         raise SystemExit(f"No index found at {index_path}.")
 
     store = VectorStore.load(index_path)
-    embedder = OllamaEmbedder(
-        base_url=settings.OLLAMA_BASE_URL, model=settings.OLLAMA_EMBEDDING_MODEL
-    )
+    embedder = embedder_for_store(settings, store)  # matches the index, not the env var
     llm = GroqClient(
         api_key=settings.GROQ_API_KEY,
         model=settings.GROQ_MODEL,

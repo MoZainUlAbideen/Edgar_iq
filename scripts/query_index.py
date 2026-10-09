@@ -11,7 +11,7 @@ import argparse
 from pathlib import Path
 
 from edgariq.config import settings
-from edgariq.indexing import OllamaEmbedder, VectorStore
+from edgariq.indexing import VectorStore, embedder_for_store
 
 INDEX_DIR = Path(__file__).resolve().parent.parent / "data" / "indexes"
 
@@ -33,9 +33,7 @@ def main() -> None:
     store = VectorStore.load(index_path)
     print(f"Loaded {len(store)} chunks for {args.ticker.upper()}\n")
 
-    embedder = OllamaEmbedder(
-        base_url=settings.OLLAMA_BASE_URL, model=settings.OLLAMA_EMBEDDING_MODEL
-    )
+    embedder = embedder_for_store(settings, store)  # matches the index, not the env var
     query_vector = embedder.embed(args.question)
     results = store.search(query_vector, top_k=args.top_k)
 

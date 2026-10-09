@@ -21,3 +21,6 @@ wheels/
 
 # Generated indexes — regenerable from source filings, not source code
 data/indexes/
+
+# Resumable embedding cache (vectors, regenerable)
+data/embedding_cache/
